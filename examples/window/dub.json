@@ -1,0 +1,12 @@
+{
+	"name": "window-example",
+	"authors": [
+		"kubo39"
+	],
+	"dependencies": {
+		"xwindow": {"path": "../../"},
+		"x11": "~>1.0.19"
+	},
+	"description": "A minimal D application.",
+	"license": "proprietary"
+}

@@ -1,0 +1,15 @@
+window-example
+.dub
+docs.json
+__dummy.html
+docs/
+window.so
+window.dylib
+window.dll
+window.a
+window.lib
+window-test-*
+*.exe
+*.o
+*.obj
+*.lst
