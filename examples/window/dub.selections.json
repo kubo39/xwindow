@@ -1,0 +1,8 @@
+{
+	"fileVersion": 1,
+	"versions": {
+		"window": {"path":"../../"},
+		"x11": "1.0.19",
+		"xwindow": {"path":"../../"}
+	}
+}
