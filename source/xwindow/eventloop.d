@@ -71,6 +71,10 @@ public:
                     return false;
             }
             break;
+        case DestroyNotify:
+            XSetCloseDownMode(this.getXDisplay, CloseDownMode.DestroyAll);
+            delete conn;
+            return false;
         default:
             // nop
         }
