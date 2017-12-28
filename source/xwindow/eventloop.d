@@ -5,9 +5,16 @@ import x11.Xlib;
 
 import xwindow.connection;
 
+enum WM_DELETE_WINDOW = "WM_DELETE_WINDOW\0";
+enum WM_PROTOCOL = "WM_PROTOCOL\0";
+
+
 class EventLoop
 {
+private:
     XConnection conn;
+
+public:
     Window root;
     Atom wmDeleteWindow;
 
@@ -16,7 +23,7 @@ class EventLoop
         this.conn = conn;
 
         // Hook close request.
-        this.wmDeleteWindow = XInternAtom(this.conn.display, "WM_DELETE_WINDOW\0".ptr,
+        this.wmDeleteWindow = XInternAtom(this.conn.display, WM_DELETE_WINDOW.ptr,
                                           False);
 
         this.root = XDefaultRootWindow(this.conn.display);
@@ -46,7 +53,7 @@ class EventLoop
 
     bool processEvent(XEvent event, bool delegate(XEvent) del)
     {
-        auto wmProtocols = XInternAtom(this.getXDisplay, "WM_PROTOCOL\0".ptr, False);
+        auto wmProtocols = XInternAtom(this.getXDisplay, WM_PROTOCOL.ptr, False);
 
         switch (event.type)
         {
