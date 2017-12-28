@@ -33,6 +33,7 @@ public:
         // handling window close.
         auto protocols = [this.evloop.wmDeleteWindow];
         XSetWMProtocols(this.evloop.getXDisplay, this.window, protocols.ptr, 1);
+        XFlush(this.evloop.getXDisplay);
     }
 
     ~this()
