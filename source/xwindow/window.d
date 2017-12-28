@@ -8,7 +8,6 @@ import xwindow.eventloop;
 class XWindow
 {
 private:
-    bool visible;
     int screen;
 
 public:
