@@ -23,8 +23,7 @@ public:
         this.conn = conn;
 
         // Hook close request.
-        this.wmDeleteWindow = XInternAtom(this.conn.display, WM_DELETE_WINDOW.ptr,
-                                          False);
+        this.wmDeleteWindow = XInternAtom(this.conn.display, WM_DELETE_WINDOW.ptr, False);
 
         this.root = XDefaultRootWindow(this.conn.display);
     }
@@ -36,8 +35,7 @@ public:
 
     ~this()
     {
-        if (this.conn.display !is null)
-            XDestroyWindow(this.conn.display, this.root);
+        XDestroyWindow(this.conn.display, this.root);
     }
 
     XDisplay* getXDisplay() @property
@@ -67,15 +65,11 @@ public:
             if (cast(Atom) event.xclient.data.l[0] == this.wmDeleteWindow)
             {
                 XSetCloseDownMode(this.getXDisplay, CloseDownMode.DestroyAll);
-                XDestroyWindow(this.conn.display, this.root);
-                XCloseDisplay(this.conn.display);
                 return false;
             }
             break;
         case DestroyNotify:
             XSetCloseDownMode(this.getXDisplay, CloseDownMode.DestroyAll);
-            XDestroyWindow(this.conn.display, this.root);
-            XCloseDisplay(this.conn.display);
             return false;
         default:
             // nop

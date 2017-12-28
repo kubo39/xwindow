@@ -9,6 +9,6 @@ void main()
     window.show();
 
     evloop.run((event) {
-            return false; // break eventloop.
+            return true;
         });
 }

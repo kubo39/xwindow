@@ -17,7 +17,6 @@ public:
 
     this(EventLoop evloop)
     {
-        this.visible = false;
         this.evloop = evloop;
         this.screen = XDefaultScreen(this.evloop.getXDisplay);
 

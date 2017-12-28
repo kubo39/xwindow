@@ -15,7 +15,6 @@ class XConnection
 
     ~this()
     {
-        if (this.display !is null)
-            XCloseDisplay(this.display);
+        XCloseDisplay(this.display);
     }
 }
