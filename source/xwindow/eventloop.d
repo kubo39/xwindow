@@ -24,7 +24,6 @@ public:
 
         // Hook close request.
         this.wmDeleteWindow = XInternAtom(this.conn.display, WM_DELETE_WINDOW.ptr, False);
-
         this.root = XDefaultRootWindow(this.conn.display);
     }
 
@@ -43,7 +42,7 @@ public:
         return this.conn.display;
     }
 
-    void run(bool delegate(XEvent) del)
+    void run(bool delegate(Event) del)
     {
 
         XEvent event;
@@ -55,8 +54,9 @@ public:
         }
     }
 
-    bool processEvent(XEvent event, bool delegate(XEvent) del)
+    bool processEvent(XEvent event, bool delegate(Event) del)
     {
+        auto wid = event.xany.window;
         auto wmProtocols = XInternAtom(this.getXDisplay, WM_PROTOCOL.ptr, False);
 
         switch (event.type)
@@ -65,15 +65,34 @@ public:
             if (cast(Atom) event.xclient.data.l[0] == this.wmDeleteWindow)
             {
                 XSetCloseDownMode(this.getXDisplay, CloseDownMode.DestroyAll);
-                return false;
+                return del(Event(wid, WindowEventType.Closed));
             }
             break;
         case DestroyNotify:
             XSetCloseDownMode(this.getXDisplay, CloseDownMode.DestroyAll);
-            return false;
+            return del(Event(wid, WindowEventType.Closed));
         default:
             // nop
         }
-        return del(event);
+        return del(Event(wid, WindowEventType.Undefined));
     }
+}
+
+
+struct Event
+{
+    Window wid;
+    WindowEventType type;
+
+    this(Window wid, WindowEventType type)
+    {
+        this.wid = wid;
+        this.type = type;
+    }
+}
+
+enum WindowEventType
+{
+    Closed,
+    Undefined,
 }

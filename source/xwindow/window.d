@@ -51,4 +51,9 @@ public:
         XUnmapWindow(this.evloop.getXDisplay, this.evloop.root);
         XFlush(this.evloop.getXDisplay);
     }
+
+    Window id()
+    {
+        return this.window;
+    }
 }

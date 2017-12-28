@@ -9,6 +9,8 @@ void main()
     window.show();
 
     evloop.run((event) {
+            if (event.type == WindowEventType.Closed)
+                return false;
             return true;
         });
 }
