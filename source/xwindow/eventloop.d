@@ -29,6 +29,11 @@ public:
         this.root = XDefaultRootWindow(this.conn.display);
     }
 
+    this()
+    {
+        this(new XConnection);
+    }
+
     ~this()
     {
         XDestroyWindow(this.conn.display, this.root);

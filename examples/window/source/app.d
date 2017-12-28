@@ -2,8 +2,7 @@ import xwindow;
 
 void main()
 {
-    auto xConn = new XConnection;
-    auto evloop = new EventLoop(xConn);
+    auto evloop = new EventLoop();
     auto window = new XWindow(evloop);
 
     window.setTitle("Test");
