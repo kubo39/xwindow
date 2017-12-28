@@ -1,5 +1,7 @@
 module xwindow.connection;
 
+import std.exception : enforce;
+
 import x11.X;
 import x11.Xlib;
 
@@ -9,8 +11,7 @@ class XConnection
 
     this()
     {
-        this.display = XOpenDisplay(null);
-        assert(this.display !is null, "XOpenDisplay failed.");
+        this.display = enforce(XOpenDisplay(null), "XOpenDisplay failed.");
     }
 
     ~this()
