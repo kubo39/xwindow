@@ -36,15 +36,6 @@ public:
         XFlush(this.evloop.getXDisplay);
     }
 
-    ~this()
-    {
-        if (visible)
-        {
-            XUnmapWindow(this.evloop.getXDisplay, this.evloop.root);
-            XFlush(this.evloop.getXDisplay);
-        }
-    }
-
     void setTitle(string title)
     {
         XStoreName(this.evloop.getXDisplay, this.window, cast(char*) (title ~ "\0").ptr);
@@ -54,6 +45,11 @@ public:
     {
         XMapRaised(this.evloop.getXDisplay, this.window);
         XFlush(this.evloop.getXDisplay);
-        this.visible = true;
+    }
+
+    void hide()
+    {
+        XUnmapWindow(this.evloop.getXDisplay, this.evloop.root);
+        XFlush(this.evloop.getXDisplay);
     }
 }
