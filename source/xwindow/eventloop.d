@@ -36,7 +36,8 @@ public:
 
     ~this()
     {
-        XDestroyWindow(this.conn.display, this.root);
+        if (this.conn.display !is null)
+            XDestroyWindow(this.conn.display, this.root);
     }
 
     XDisplay* getXDisplay() @property
@@ -47,9 +48,9 @@ public:
     void run(bool delegate(XEvent) del)
     {
 
-        XEvent event = void;
+        XEvent event;
         bool running = true;
-        while (true)
+        while (running)
         {
             XNextEvent(this.conn.display, &event);
             running = processEvent(event, del);
@@ -63,17 +64,18 @@ public:
         switch (event.type)
         {
         case ClientMessage:
-            auto xclient = event.xclient;
-            if (xclient.message_type == wmProtocols && xclient.format == 32)
+            if (cast(Atom) event.xclient.data.l[0] == this.wmDeleteWindow)
             {
-                auto protocol = cast(Atom) xclient.data.l[0];
-                if (protocol == this.wmDeleteWindow)
-                    return false;
+                XSetCloseDownMode(this.getXDisplay, CloseDownMode.DestroyAll);
+                XDestroyWindow(this.conn.display, this.root);
+                XCloseDisplay(this.conn.display);
+                return false;
             }
             break;
         case DestroyNotify:
             XSetCloseDownMode(this.getXDisplay, CloseDownMode.DestroyAll);
-            delete conn;
+            XDestroyWindow(this.conn.display, this.root);
+            XCloseDisplay(this.conn.display);
             return false;
         default:
             // nop
