@@ -57,7 +57,6 @@ public:
     bool processEvent(XEvent event, bool delegate(Event) del)
     {
         auto wid = event.xany.window;
-        auto wmProtocols = XInternAtom(this.getXDisplay, WM_PROTOCOL.ptr, False);
 
         switch (event.type)
         {
