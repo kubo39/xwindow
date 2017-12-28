@@ -1,8 +1,5 @@
 import xwindow;
 
-import x11.X;
-import x11.Xlib;
-
 void main()
 {
     auto xConn = new XConnection;
