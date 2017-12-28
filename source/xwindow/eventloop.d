@@ -40,7 +40,28 @@ class EventLoop
         while (true)
         {
             XNextEvent(this.conn.display, &event);
-            running = del(event);
+            running = processEvent(event, del);
         }
+    }
+
+    bool processEvent(XEvent event, bool delegate(XEvent) del)
+    {
+        auto wmProtocols = XInternAtom(this.getXDisplay, "WM_PROTOCOL\0".ptr, False);
+
+        switch (event.type)
+        {
+        case ClientMessage:
+            auto xclient = event.xclient;
+            if (xclient.message_type == wmProtocols && xclient.format == 32)
+            {
+                auto protocol = cast(Atom) xclient.data.l[0];
+                if (protocol == this.wmDeleteWindow)
+                    return false;
+            }
+            break;
+        default:
+            // nop
+        }
+        return del(event);
     }
 }

@@ -29,6 +29,10 @@ public:
                                     0, 0,
                                     InputOutput, null,
                                     CWBackPixel, &attributes);
+
+        // handling window close.
+        auto protocols = [this.evloop.wmDeleteWindow];
+        XSetWMProtocols(this.evloop.getXDisplay, this.window, protocols.ptr, 1);
     }
 
     ~this()
