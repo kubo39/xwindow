@@ -38,7 +38,10 @@ public:
     ~this()
     {
         if (visible)
+        {
             XUnmapWindow(this.evloop.getXDisplay, this.evloop.root);
+            XFlush(this.evloop.getXDisplay);
+        }
     }
 
     void setTitle(string title)
@@ -48,7 +51,8 @@ public:
 
     void show()
     {
-        XMapWindow(this.evloop.getXDisplay, this.window);
+        XMapRaised(this.evloop.getXDisplay, this.window);
+        XFlush(this.evloop.getXDisplay);
         this.visible = true;
     }
 }
